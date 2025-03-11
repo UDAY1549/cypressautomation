@@ -1,0 +1,13 @@
+{
+    "validUser": {
+      "username": "kumarQA",
+      "email" : "kumarfqa@gmail.com",
+      "password": "kumarfqa"
+    },
+    "article": {
+    "originalTitle": "Quality is never an accident; it is always the result of intelligent effort.",
+    "updatedTitle": "Updated Title - Quality is never an accident",
+    "updatedContent": "Updated content for the article.",
+    "contentWithoutTitle": "This is the article content, but without a title."
+  }
+}
