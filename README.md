@@ -16,12 +16,15 @@ Clone the project from GitHub by running the following command:
 git clone https://github.com/UDAY1549/cypressautomation.git  
 ```
 
-2. **Install Dependencies**  
+2. **Install Dependencies**
+```bash
 npm install  
 ```
 
 3. **Running the Tests**  
-Run in Parallel (Multiple Browsers)  
+Run in Parallel (Multiple Browsers)
+```bash
 npm run test:parallel  
-Run in UI Mode (Interactive Mode)  
+Run in UI Mode (Interactive Mode)
+```bash
 npx cypress open  
