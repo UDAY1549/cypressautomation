@@ -16,9 +16,9 @@ git clone https://github.com/UDAY1549/cypressautomation.git
 
 2. Install Dependencies
    npm install
-3. Running the Tests
+   
+4. Running the Tests
 Run in Parallel (Multiple Browsers)
 npm run test:parallel
-
 Run in UI Mode (Interactive Mode)
 npx cypress open
