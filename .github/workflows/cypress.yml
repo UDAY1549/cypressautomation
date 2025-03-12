@@ -1,0 +1,42 @@
+name: Cypress Automation Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest  # Use Ubuntu runner
+
+    strategy:
+      matrix:
+        browser: [chrome, edge]  # Specify browsers to run tests on
+        # You can also add more browsers here if needed, e.g., firefox
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Checkout the code from your repository
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Define Node.js version (use version you require)
+      
+    - name: Install dependencies
+      run: |
+        npm install  # Install required dependencies
+      
+    - name: Run Cypress Tests in Parallel (Multiple Browsers)
+      run: |
+        npm run test:parallel  # Run the tests in parallel across browsers
+      env:
+        CYPRESS_baseUrl: ${{ secrets.BASE_URL }}  # Optional: Set environment variables (like base URL) if needed
+
+    - name: Run Cypress Tests in UI Mode (Interactive Mode)
+      run: |
+        npx cypress open  # Run Cypress in UI mode if you prefer
+      if: github.event_name == 'push'  # This ensures UI mode is run only on push events
