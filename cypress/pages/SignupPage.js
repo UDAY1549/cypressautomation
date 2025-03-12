@@ -1,9 +1,10 @@
 class SignupPage {
 
     visit() {
-        cy.visit('http://localhost:8080/#/'); // Visit the base URL
+        cy.visit('http://localhost:8080/#/');
     }
 
+    //Sign up
     clickSignup() {
         cy.contains('a.nav-link', 'Sign up') 
           .should('be.visible') 
@@ -23,7 +24,7 @@ class SignupPage {
         cy.get('input[placeholder="Password"]').should('be.visible').type(password, { log: false });
     }
 
-    clickLogup() {
+    clickSignupAgain() {
         cy.get('button.btn.btn-lg.btn-primary.pull-xs-right').click();
     }
 

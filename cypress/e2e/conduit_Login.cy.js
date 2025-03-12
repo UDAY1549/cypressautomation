@@ -3,91 +3,98 @@ import SignupPage from "../pages/SignupPage";
 import LogoutPage from "../pages/LogoutPage";
 import ArticlePage from "../pages/ArticlePage";
 
+//Test suite 
 describe("Login Test Suite", function () {
   beforeEach(function () {
     cy.fixture("testData").then((data) => {
-      this.testData = data; // Store test data in the context
+      this.testData = data;
     });
 
-    SigninPage.visit(); // Navigate to the Signin page before each test
+    SigninPage.visit(); 
   });
 
   // Reusable login function
   function login() {
-    SigninPage.clickSignin(); // Click on the "Sign in" link
-    SigninPage.enterEmail(this.testData.validUser.email); // Enter dynamic valid email
-    SigninPage.enterPassword(this.testData.validUser.password); // Enter dynamic valid password
-    SigninPage.clickLogin(); // Click the login button
-    SigninPage.verifyDashboard(); // Verify that the dashboard page is loaded
+    SigninPage.clickSignin();
+    SigninPage.enterEmail(this.testData.validUser.email); 
+    SigninPage.enterPassword(this.testData.validUser.password);
+    SigninPage.clickLogin();
+    SigninPage.verifyDashboard();
   }
 
   // Logout process function
   function logout() {
-    cy.contains('a.nav-link', 'Settings').should('be.visible').click({ force: true }); // Click on the "Settings" link
-    cy.log('Clicked on Sign up'); // Log the action
-    LogoutPage.clickLogout(); // Click on the logout button
-    LogoutPage.verifyLogout(); // Verify that the user has been logged out
+    cy.contains('a.nav-link', 'Settings').should('be.visible').click({ force: true });
+    cy.log('Clicked on Sign up');
+    LogoutPage.clickLogout();
+    LogoutPage.verifyLogout();
   }
 
+  //Login process
   it("Login with valid credentials", function () {
-    login.call(this); // Login using dynamic credentials
+    login.call(this); 
   });
 
+  //sign-up with an already registered email
   it("Prevent sign-up with an already registered email", function () {
-    SignupPage.visit(); // Navigate to the signup page
-    SignupPage.clickSignup(); // Click the "Sign Up" button
-    SignupPage.enterUsername(this.testData.validUser.username); // Enter dynamic username
-    SignupPage.enterEmail(this.testData.validUser.email); // Enter already registered dynamic email
-    SignupPage.enterPassword(this.testData.validUser.password); // Enter dynamic password
-    SignupPage.clickLogup(); // Submit the signup form
-    SignupPage.verifyHomePage(); // Ensure the user is on the homepage
+    SignupPage.visit(); 
+    SignupPage.clickSignup(); 
+    SignupPage.enterUsername(this.testData.validUser.username);
+    SignupPage.enterEmail(this.testData.validUser.email);
+    SignupPage.enterPassword(this.testData.validUser.password);
+    SignupPage.clickSignupAgain();
+    SignupPage.verifyHomePage();
   });
 
+  //editing the article
   it('should update article after editing and saving changes', function() {
-    login.call(this); // Log in before editing the article
-    const originalTitle = this.testData.article.originalTitle; // Fetch the original title dynamically
-    const updatedTitle = this.testData.article.updatedTitle; // Fetch updated title dynamically
-    const updatedContent = this.testData.article.updatedContent; // Fetch updated content dynamically
+    login.call(this);
+    const originalTitle = this.testData.article.originalTitle; 
+    const updatedTitle = this.testData.article.updatedTitle; 
+    const updatedContent = this.testData.article.updatedContent;
 
-    cy.contains('.article-preview', originalTitle) // Find the article by its original title
-      .find('.preview-link') // Find the link inside the article preview
-      .click(); // Open the article
+    cy.contains('.article-preview', originalTitle) 
+      .find('.preview-link') 
+      .click(); 
 
-    cy.url().should('include', '/articles'); // Verify that the article page is loaded
-    cy.contains('Edit Article').click(); // Click on the "Edit Article" button
-    ArticlePage.editArticle(originalTitle, updatedTitle, updatedContent); // Edit the article
-    cy.contains('a.nav-link', 'Home') // Navigate to the Home page
+    cy.url().should('include', '/articles'); 
+    cy.contains('Edit Article').click();
+    ArticlePage.editArticle(originalTitle, updatedTitle, updatedContent);
+    cy.contains('a.nav-link', 'Home') 
       .should('be.visible')
       .click({ force: true });
       
-    cy.contains(originalTitle).should('be.visible'); // Verify that the original title still exists
-    cy.contains(updatedTitle).should('not.exist'); // Ensure the updated title does not appear
+    cy.contains(originalTitle).should('be.visible'); 
+    cy.contains(updatedTitle).should('not.exist');
   });
 
+  //create new article without title
   it("should prevent article submission with an empty title", function () {
-    login.call(this); // Log in before creating the article
-    cy.contains('a.nav-link', 'New Article') // Click the "New Article" link
+    login.call(this); 
+    cy.contains('a.nav-link', 'New Article') 
       .should('be.visible')
       .click({ force: true });
     cy.log('Clicked on New Article');
-    const content = this.testData.article.contentWithoutTitle; // Fetch content dynamically
+    const content = this.testData.article.contentWithoutTitle; 
     
-    ArticlePage.createArticleWithoutTitle(content); // Attempt to create an article without a title
-    cy.contains('a.nav-link', 'Home') // Navigate to the Home page
+    ArticlePage.createArticleWithoutTitle(content); 
+    cy.contains('a.nav-link', 'Home') 
       .should('be.visible')
       .click({ force: true });
     cy.log('Clicked on Home Page');
     
-    cy.get('a.preview-link p').should('contain.text', 'my life is happy'); // Verify the article preview text
+    cy.get('a.preview-link p').should('contain.text', 'my life is happy'); 
   });
 
+  //access setting page directly without login into application
   it('Should redirect to Signin page when accessing settings without authentication', function(){ 
-    cy.visit('/#/settings'); // Try to visit the settings page directly
-    cy.contains('Home').should('be.visible'); // Ensure the Home page is visible if redirected
+    cy.visit('/#/settings'); 
+    cy.contains('Home').should('be.visible'); 
   });
 
+  // Log out of the application
   it("should log out successfully", function () {
-    login.call(this); // Log in before attempting to log out
-    logout.call(this); // Log out of the application
+    login.call(this); 
+    logout.call(this); 
   });
 });

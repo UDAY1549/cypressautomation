@@ -1,8 +1,9 @@
 class SigninPage {
     visit() {
-      cy.visit('http://localhost:8080/#/'); // Visit the homepage
+      cy.visit('http://localhost:8080/#/');
     }
   
+    //Sign in
     clickSignin() {
       cy.contains('a.nav-link', 'Sign in') 
         .should('be.visible') 
@@ -16,7 +17,7 @@ class SigninPage {
     enterPassword(password) {
       cy.get('input[placeholder="Password"]', { timeout: 10000 }) 
         .should('be.visible')
-        .type(password, { log: false }); // Hide the password input in the logs
+        .type(password, { log: false });
     }
   
     clickLogin() {

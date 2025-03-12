@@ -1,9 +1,10 @@
 class ArticlePage {
-      // Function to create an article with an empty title
+      
+    // Function to create an article with an empty title
       createArticleWithoutTitle(content) {
-        cy.get('input[placeholder="Article Title"]').clear(); // Clear the title field
-        cy.get('textarea[placeholder="Write your article (in markdown)"]').type(content); // Set dynamic content
-        cy.contains('Publish Article').click(); // Try to submit the article 
+        cy.get('input[placeholder="Article Title"]').clear();
+        cy.get('textarea[placeholder="Write your article (in markdown)"]').type(content);
+        cy.contains('Publish Article').click();
     }
      
     // Function to edit an existing article
