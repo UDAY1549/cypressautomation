@@ -23,7 +23,5 @@ npm install
 3. **Running the Tests**  
 Run in Parallel (Multiple Browsers)  
 npm run test:parallel  
-```
-
 Run in UI Mode (Interactive Mode)  
 npx cypress open  
